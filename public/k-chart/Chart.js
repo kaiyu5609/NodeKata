@@ -1,12 +1,15 @@
 define(function(require, exports, module) {
     var d3 = require('d3');
-    var SVG = require('k-chart/shapes/SVG');
+    var EventEmitter = require('k-chart/core/event-emitter/EventEmitter');
     var Utils = require('k-chart/Utils');
+    var SVG = require('k-chart/shapes/SVG');
 
 
 
-    class Chart {
+
+    class Chart extends EventEmitter {
         constructor(options) {
+            super(options);
             this.options = options;
             this.container = d3.select(options.domEl);
 

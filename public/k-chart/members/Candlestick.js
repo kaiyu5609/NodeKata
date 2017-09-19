@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     var Chart = require('k-chart/Chart');
 
 
-
+    console.log(Utils);
 
     class Candlestick extends Chart {
         constructor(options) {

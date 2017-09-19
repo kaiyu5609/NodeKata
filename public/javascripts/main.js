@@ -18,11 +18,19 @@ define(function(require, exports, module) {
     var kline = new Candlestick({
         domEl: document.getElementById('candlestick'),
         width: 500,
-        height: 400
+        height: 400,
+        dataSet: null
     });
 
     kline.render();
 
+    kline.on('k-event', function(data) {
+          console.log(data);
+    });
+
+    setTimeout(function() {
+        kline.fire('k-event', 13412515);
+    }, 500);
 
 
 });
