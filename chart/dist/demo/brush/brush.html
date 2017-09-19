@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">	
+	<title>时间序列:默认</title>
+	<link rel="stylesheet" type="text/css" href="../../chart.css">
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding: 0px;
+			font: 12px '微软雅黑';
+		}
+		div{
+			padding: 5px;			
+			display: inline-block;
+		}
+		svg{
+			border:1px solid #072e42;
+			border-radius: 3px;
+		}
+		#brush svg g.axis.axis-left text{
+			display: none;
+		}
+
+		#brush svg g.axis.axis-left text:first-child,
+		#brush svg g.axis.axis-left text:last-child{
+			display: block;
+		}
+
+		#brush svg rect.background{
+			stroke: rgba(44, 160, 44, 0.5);
+		}
+
+		#brush svg rect.extent{
+			fill: rgba(10,80,150,0.5);
+		}
+
+		#brush svg rect.resize {
+
+		}
+	</style>
+</head>
+<body>
+	<div id="brush">
+		
+	</div>
+	<script type="text/javascript" src="./../../../lib/d3/3.5.2/d3.min.js"></script>
+	<script type="text/javascript" src="./../../cn.szse.chart.min.js"></script>
+	<script type="text/javascript">
+		var width = 663;
+		var left = 60;
+		var right = 20;
+		var chart = cn.szse.chart;
+
+		//brush
+		var brush = new cn.szse.chart.Brush({
+			width : width,
+			left: left,
+			right: right,
+			height : 80,
+			id: 'brush',
+			scale : [null, null, {
+					index : 0,
+					type : 'time',
+					data: {
+						label: function(d) {
+							var date = new Date(d);	
+							return date.getHours() + ':' + (date.getMinutes() < 10 ? ('0'+ date.getMinutes()) : date.getMinutes());
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					data: {
+						label: function(d) {
+							return d;
+						}
+					}
+				}
+			]
+		});
+
+		
+
+		d3.json('./day-k-data.json', function(data) {
+			var result = data.map(function(d) {
+				return [new Date(d[0]).getTime(),  d[1] , (d[1] - 300) / 100 < 1 ? 'minus' : 'plus'];
+			});
+			
+			brush.render(result);
+		});
+
+	</script>
+</body>
+</html>

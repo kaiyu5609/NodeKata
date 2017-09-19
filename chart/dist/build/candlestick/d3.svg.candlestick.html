@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">	
+	<title>Line</title>
+	<link rel="stylesheet" type="text/css" href="../chart.css">
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding: 0px;
+		}
+		div.line{
+			font: 12px '微软雅黑';
+		}
+	</style>
+</head>
+<body>
+	<div id="candlestick" class="line">
+		
+	</div>
+	<script type="text/javascript" src="../../lib/d3/3.5.2/d3.min.js"></script>
+	<script type="text/javascript" src="../cn.szse.chart.min.js"></script>
+	<script type="text/javascript">
+		var candlestick = new cn.szse.chart.KLine({
+			width : 863,
+			height : 300,
+			id: 'candlestick',
+			scale : [null, {
+					index : 1,
+					type : 'linear',
+					extent: function(extent, data) {
+						var max = d3.max(data, function(d) {
+							return d[1];
+						});
+						var min = d3.min(data, function(d) {
+							return d[3];
+						});
+
+						return [min, max];
+					},
+					data: {
+						label: function(d) {
+							return d.toFixed(2) + '%'
+						}
+					}
+				}, {
+					index : 0,
+					type : 'time',
+					data: {
+						label: function(d) {
+							var date = new Date(d);
+							return date.getHours() + ':' + date.getMinutes() + ':'+ date.getSeconds();
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					extent: function(d, data) {
+						var max = d3.max(data, function(d) {
+							return d[1];
+						});
+						var min = d3.min(data, function(d) {
+							return d[3];
+						});
+
+						return [min, max];
+					},
+					data: {
+						label: function(d) {
+							return d.toFixed(2);
+						}
+					}
+				}
+			]
+		});
+
+		var player = cn.szse.chart.core.animate().duration(18000)
+		.watch(function(progress) {
+			candlestick.progress(progress);
+		});
+
+		var controls = player();
+	
+		setTimeout(function(){
+			controls.play();
+		}, 2000);
+
+		candlestick.mouse(function(mouse) {
+			return mouse;
+		});
+
+		d3.json('../data/k-data.json', function(data) {
+			var result = data.map(function(d) {
+				return [new Date(d[0]).getTime(), +d[1], +d[2], +d[3], +d[4]];
+			});
+			candlestick.render(result);
+		});
+	</script>
+</body>
+</html>

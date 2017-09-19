@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">	
+	<title>时间序列:默认</title>
+	<link rel="stylesheet" type="text/css" href="../../chart.css">
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding: 0px;
+			font: 12px '微软雅黑';
+		}
+	</style>
+</head>
+<body>
+	<div id="timeseries">
+		
+	</div>
+	<script type="text/javascript" src="./../../../lib/d3/3.5.2/d3.min.js"></script>
+	<script type="text/javascript" src="./../../cn.szse.chart.min.js"></script>
+	<script type="text/javascript">
+		var timeseries = new cn.szse.chart.TimeSeries({
+			width : 463,
+			height : 300,
+			id: 'timeseries',
+			scale : [null, null, {
+					index : 0,
+					type : 'time',				
+					data: {
+						label: function(d) {
+							var date = new Date(d);
+							return date.getHours() + ':' + date.getMinutes() + ':'+ date.getSeconds();
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					extent: function() {
+						return [16, 24];
+					},
+					data: {
+						label: function(d) {
+							return ((1 + d / 100) * 3718).toFixed(2);
+						}
+					}
+				}
+			]
+		});
+
+		d3.json('./day-k-data.json', function(data) {
+			var result = data.map(function(d) {
+				return [d[0],  d[1], d[3]];
+			});
+			timeseries.render(result);
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">	
+	<title>时间序列:默认</title>
+	<link rel="stylesheet" type="text/css" href="../../chart.css">
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding: 0px;
+			font: 12px '微软雅黑';
+		}
+		svg {
+			border:1px solid #072e42;
+			border-radius: 3px;
+			
+		}
+		g.graph-content{
+			
+		}
+		div#candlestick,div#timeseries{
+			/*position: relative;*/
+		}
+		#volume svg g.axis.axis-left text{
+			display: none;
+		}
+
+		#volume svg g.axis.axis-left text:first-child,
+		#volume svg g.axis.axis-left text:last-child {
+			display: block;
+		}
+
+		#brush svg g.axis.axis-left text{
+			display: none;
+		}
+
+		#brush svg g.axis.axis-left text:first-child,
+		#brush svg g.axis.axis-left text:last-child {
+			display: block;
+		}
+
+		#brush svg rect.background{
+			stroke: rgba(44, 160, 44, 0.5);
+		}
+
+		#brush svg rect.extent{
+			fill: rgba(10,80,150,0.5);
+		}
+
+		#brush svg rect.resize {
+			
+		}	
+	</style>
+</head>
+<body>	
+	<div id="candlestick">
+		
+	</div>
+	<div id="timeseries">
+		
+	</div>
+	<div id="timeseries02">
+		
+	</div>
+	<div id="volume">
+		
+	</div>
+	<div id="brush">
+		
+	</div>	
+	<script type="text/javascript" src="./../../../lib/d3/3.5.2/d3.min.js"></script>
+	<script type="text/javascript" src="./../../../lib/base/1.1.0/base.js"></script>
+	<script type="text/javascript" src="./../../cn.szse.chart.min.js"></script>
+	<script type="text/javascript">
+
+		/*var themes = {
+			sikn: ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84"]
+		}*/
+		var config = {
+			YlGn: {
+				timeseries: ["#f60", "#f00", "#f03b20"],
+				timeseries02: ["#f60", "#f00", "#f03b20"],
+			},
+			PuRd:{
+				timeseries: ["#fee8c8", "#fdbb84", "#e34a33"],
+				timeseries02: ["#fee8c8", "#fdbb84", "#e34a33"],
+			}
+		}
+
+		var width = '100%';
+		var left = 60;
+		var right = 60;
+		var chart = cn.szse.chart.extends;
+
+		var themes = chart.core.themes;
+		themes.skin = config['PuRd'];
+
+		var candlestick = new chart.Candlestick({
+			width : '100%',
+			left: left,
+			right: right,
+			height : 300,
+			id: 'candlestick',
+
+			tooltips: function(tips) {
+				return tips.join('<br>');
+			},
+
+			scale : [null, {
+					index : 1,
+					type : 'linear',
+					extent: function(d, all) {
+						return [-5, 5];
+					},
+					data: {
+						value: function(d) {
+							return d;
+						},
+						label: function(d) {
+							return d.toFixed(2);
+						}
+					}
+				}, {
+					index : 0,
+					type : 'time',
+					exclude: [], 
+					data: {
+						label: function(d) {
+							var date = new Date(d);							
+							return date.getHours() + ':' + (date.getMinutes() < 10 ? ('0'+ date.getMinutes()) : date.getMinutes());
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					extent: function(d, data) {
+
+						var max = chart.core.utils.max(data, function(d) {
+							return d[1];
+						});
+
+						var min = chart.core.utils.min(data, function(d) {
+							return d[3];
+						})
+						return [min, max];
+					},
+					data: {
+						value: function(d) {
+							return d - 20;
+						},
+						label: function(d) {
+							return d.toFixed(2);
+						}
+					}
+				}
+			]
+		});
+
+		candlestick.watch('marker', function(data) {
+			//console.log(data);
+		});
+
+		candlestick.on('marker', function(data) {
+			var arrays = [
+			'<h4>'+ data[0] +'</h4>',
+			'<p>委托:'+ data[1].toFixed(2) +'</p>',
+			'<p>类型:'+ data[2] +'</p>'
+			];
+			return arrays.join('');
+		});
+
+		candlestick.converge(function(data, gs) {
+			var size = data.length -1;
+			var time = data[size][0];
+			var open = data[0][2];
+			var high = d3.max(data, function(d) {
+				return d[1];
+			});
+			var low = d3.min(data, function(d) {
+				return d[3];
+			});
+			var close = data[size][4];
+			return [time, high, open, low, close];
+		});
+
+		var query = ['./day-k-data.json', './marker-data.json'].map(function(url) {
+			return new Promise(function(resolve, reject) {
+				d3.json(url, function(data) {
+					resolve(data);
+				});
+			});
+		});
+
+		
+
+		/*chart.mouse('pinch', function(data) {
+			candlestick.pinch(data);
+		});*/
+
+		Promise.all(query).then(function(data) {
+			var result = data[0].map(function(d) {
+				return d;
+			});
+
+			var marker = data[1].map(function(d) {
+				return [d[0], d[1] + 15, d[2], d[3]];
+			});
+
+			candlestick.render({
+				candlestick: result,
+				marker: marker
+			});
+
+			var $WATCHER = candlestick.$WATCHER;
+
+			var list = $WATCHER.CANDLESTICK_DATA;
+
+			var scaleX = $WATCHER.$Scale.get(2);
+
+			var size = list.length;
+
+			//console.log(scaleX.parse(154, size), scaleX.parse(260, size));
+
+			setTimeout(function() {
+				console.log(scaleX.parse(154, size), scaleX.parse(260, size));
+				$WATCHER.CANDLESTICK_DATA = list.slice(scaleX.parse(154, size), scaleX.parse(260, size));
+			}, 2000);
+
+		});
+
+		//时间序列
+		var timeseries = new chart.TimeSeries({
+			width : width,
+			left: left,
+			right: right,
+			height : 300,
+
+			id: 'timeseries',
+			scale : [null, null, {
+					index : 0,
+					type : 'time',
+					data: {
+						label: function(d) {
+							var date = new Date(d);							
+							return date.getHours() + ':' + (date.getMinutes() < 10 ? ('0'+ date.getMinutes()) : date.getMinutes());
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					data: {
+						label: function(d) {
+							return ((1 + d / 100) * 3718).toFixed(2);
+						}
+					}
+				}
+			]
+		});	
+
+		var query = ['./day-k-data.json', './marker-data.json'].map(function(url) {
+			return new Promise(function(resolve, reject) {
+				d3.json(url, function(data) {
+					resolve(data);
+				})
+			});
+		});
+
+		
+
+		timeseries.on('marker', function(data) {
+			var arrays = [
+			'<h4>'+ data[0] +'</h4>',
+			'<p>委托:'+ data[1].toFixed(2) +'</p>',
+			'<p>类型:'+ data[2] +'</p>'
+			];
+			return arrays.join('');
+		});
+
+		Promise.all(query).then(function(data) {
+			var line = data[0].map(function(d) {
+				return [d[0], +d[1]];
+			});
+
+			var marker = data[1].map(function(d) {
+				return [d[0], d[1] + 15, d[2], d[3]];
+			});
+
+			timeseries.render({
+				line: line,
+				marker: marker
+			});
+
+			/*var t = data[0].map(function(d) {
+				return [d[0], +d[1], ((+d[1] - 20) / 20).toFixed(2)];
+			});
+
+			console.log(JSON.stringify(t));*/
+		});
+
+
+		//多线
+		var timeseries02 = new chart.TimeSeries({
+			width : width,
+			left: left,
+			right: right,
+			height : 300,
+			id: 'timeseries02',
+			scale : [null, null, {
+					index : 0,
+					type : 'time',				
+					data: {
+						label: function(d) {
+							var date = new Date(d);							
+							return date.getHours() + ':' + (date.getMinutes() < 10 ? ('0'+ date.getMinutes()) : date.getMinutes());
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					extent: function() {
+						return [16, 24];
+					},
+					data: {
+						label: function(d) {
+							return ((1 + d / 100) * 3718).toFixed(2);
+						}
+					}
+				}
+			]
+		});
+
+		d3.json('./day-k-data.json', function(data) {
+			var result = data.map(function(d) {
+				return [d[0],  d[1], d[3], null,  d[3] + 3];
+			});
+
+			timeseries02.render(result);
+		});
+
+		var volume = new chart.Volume({
+			width : width,
+			left: left,
+			right: right,
+			height : 80,
+			id: 'volume',
+			scale : [null, null, {
+					index : 0,
+					type : 'time',
+					data: {
+						label: function(d) {
+							var date = new Date(d);							
+							return date.getHours() + ':' + (date.getMinutes() < 10 ? ('0'+ date.getMinutes()) : date.getMinutes());
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					data: {
+						label: function(d) {
+							return d;
+						}
+					}
+				}
+			]
+		});
+
+		d3.json('./day-k-data.json', function(data) {
+			var result = data.map(function(d) {
+				return [d[0],  d[1] , (d[1] - 300) / 100 < 1 ? 'minus' : 'plus'];
+			});
+			
+			volume.render(result);
+		});
+
+		chart.mouse.$watch('move', function(mouse) {
+			candlestick.mouse(mouse);
+			timeseries.mouse(mouse);
+			timeseries02.mouse(mouse);
+			volume.mouse(mouse);
+		});
+
+		var player = chart.core.animate()
+		.duration(18000)
+		.watch(function(progress) {
+			candlestick.progress(progress);
+			timeseries.progress(progress);
+			timeseries02.progress(progress);
+			volume.progress(progress);
+		});
+
+		var controls = player();
+	
+		setTimeout(function() {
+			//controls.play();
+		}, 2000);				
+	</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+svg{
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+}
+
+line {
+	shape-rendering: crispEdges;
+}
+
+text.svg-message{
+	font-size: 25px;
+	fill: RGBA(255,255,255, 0.3);
+}
+
+rect.graph-hover {
+	fill-opacity: 0;
+	cursor: default;
+}
+
+g.axis{
+
+}
+
+g.axis text.tick-nums{
+	fill: rgba(250,250,250, 0.5);
+}
+
+g.axis text.tick-plus{
+	fill: rgb(214, 39, 40);
+}
+
+g.axis text.tick-minus{
+	fill: rgb(44, 160, 44);
+}
+
+line.cursor-line-vertical, 
+line.cursor-line-horizontal {
+	stroke: rgba(82, 154, 191, 0.7);
+}
+
+g.grid-line line {
+	stroke: rgba(150,150,150, 0.2);
+}
+
+g.grid-line line.graph-zero {
+	stroke-dasharray: 2;
+	stroke: rgba(255,255,255, 0.5);
+	stroke-width: 1.5px;
+}
+
+g.graph-content path {
+	stroke-width: 1px;
+}
+
+g.tips-value text{
+	fill:#fff;
+}
+
+g.tips-value path {
+	fill: #093f5a;
+	/*fill-opacity: 0.5;*/
+}
+
+g.point-hover circle {
+	stroke: #fff;
+	stroke-opacity: 0.8;
+	stroke-width: 2px;
+	fill: #0581ca;
+}
+
+rect.graph-selection{
+	fill: rgba(3,151,230, 0.2);	
+	/*stroke: #f60;
+	stroke-width: 1.0;
+	stroke-dasharray: 2;
+	shape-rendering: crispEdges;*/
+}

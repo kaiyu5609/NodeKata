@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">	
+	<title>K线图:标记</title>
+	<link rel="stylesheet" type="text/css" href="./../../chart.css">
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding: 0px;
+			font: 12px '微软雅黑';
+		}
+	</style>
+</head>
+<body>
+	<div id="candlestick">
+		
+	</div>
+	<script type="text/javascript" src="./../../../lib/d3/3.5.2/d3.min.js"></script>
+	<script type="text/javascript" src="./../../cn.szse.chart.min.js"></script>
+	<script type="text/javascript">
+		var chart = cn.szse.chart;
+		var candlestick = new chart.Candlestick({
+			width : 363,
+			height : 300,
+			id: 'candlestick',
+			scale : [null, null, {
+					index : 0,
+					type : 'time',
+					exclude: [], 
+					data: {
+						label: function(d) {
+							var date = new Date(d);
+							if(date.getHours() === 11 && date.getMinutes() === 30) {
+								return '11:30/13:00';
+							}
+							return date.getHours() + ':' + (date.getMinutes() < 10 ? ('0'+ date.getMinutes()) : date.getMinutes());
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					extent: function(d, data) {
+						var max = d3.max(data, function(d) {
+							return d[1];
+						});
+						var min = d3.min(data, function(d) {
+							return d[3];
+						});
+
+						return [min, max];
+					},
+					data: {
+						label: function(d) {
+							return d.toFixed(2);
+						}
+					}
+				}
+			]
+		});
+
+		candlestick.converge(function(data, gs) {
+			var size = data.length -1;
+			var time = data[size][0];
+			var open = data[0][2];
+			var high = cn.szse.chart.core.utils.max(data, function(d) {
+				return d[1];
+			});
+			var low = cn.szse.chart.core.utils.min(data, function(d) {
+				return d[3];
+			});
+			var close = data[size][4];
+			return [time, high, open, low, close];
+		});
+
+		var query = ['./day-k-data.json', './marker-data.json'].map(function(url){
+			return new Promise(function(resolve, reject) {
+				d3.json(url, function(data){
+					resolve(data);
+				})
+			});
+		});
+
+		Promise.all(query).then(function(data) {
+			var candle = data[0].map(function(d) {
+				return [new Date(d[0]).getTime(), +d[1], +d[2], +d[3], +d[4]];
+			});
+
+			var marker = data[1].map(function(d) {
+				return [new Date(d[0]).getTime(), d[1]+ 15];
+			});
+
+			var line = [1,2,3,4].map(function(index){
+				return data[0].map(function(d) {
+					return [new Date(d[0]).getTime(), +d[index]];
+				});
+			});
+
+			candlestick.render({
+				candlestick: candle,
+				marker: marker,
+				//line: line
+			});
+		});
+		
+	</script>
+</body>
+</html>

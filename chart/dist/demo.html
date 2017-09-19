@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">	
+	<title>Line</title>
+	<link rel="stylesheet" type="text/css" href="chart.css">
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding: 0px;
+		}
+		div.content{
+			background: #062433;
+			display: inline-block;
+			font: 12px '微软雅黑';
+			border-radius: 3px;
+	        border:1px solid #043552;
+	        margin: 5px;
+		}
+
+		#svg-volume g.axis.axis-left text{
+			display: none;
+		}
+
+		#svg-volume g.axis.axis-left text:first-child{
+			display: block;
+		}
+		#svg-volume g.axis.axis-left text:last-child {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<div id="timeseries" class="line">
+		
+		</div>
+		<div id="volume" class="line">
+			
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="./../lib/d3/3.5.2/d3.min.js"></script>
+	<script type="text/javascript" src="./cn.szse.chart.min.js"></script>
+	<script type="text/javascript">
+		var width = 363;
+		var left = 60;
+		var right = 60;
+
+
+
+		var timeseries = new cn.szse.chart.TimeSeries({
+			width : width,
+			height : 300,
+			left: left,
+			right: right,
+			id: 'timeseries',
+			scale : [null, {
+					index : 1,
+					type : 'linear',
+					data: {
+						value: function(d) {
+							return d;
+						},
+						label: function(d) {
+							return d.toFixed(2) + '%';
+						}
+					}
+				}, {
+					index : 0,
+					type : 'time',
+					data: {
+						label: function(d) {
+							var date = new Date(d);
+							return date.getHours() + ':' + date.getMinutes() + ':'+ date.getSeconds();
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					data: {
+						value: function(d) {
+							return d;
+						},
+						label: function(d) {
+							return ((1 + d / 100) * 3718).toFixed(2);
+						}
+					}
+				}
+			]
+		});
+
+		timeseries.mouse(function(mouse) {
+			return mouse;
+		});
+
+		d3.json('./data/line-data.json', function(data) {
+			var result = data.map(function(d) {
+				return [d[0],  (d[1] - 300) / 100];
+			});
+			timeseries.render(result);
+		});
+
+		var volume = new cn.szse.chart.Volume({
+			width : width,
+			height : 80,
+			id: 'volume',
+			left: left,
+			right: right,
+			scale : [null, null, {
+					index : 0,
+					type : 'time',
+					data: {
+						label: function(d) {
+							var date = new Date(d);
+							return date.getHours() + ':' + date.getMinutes() + ':'+ date.getSeconds();
+						}
+					}
+				}, {
+					index : 1,
+					type : 'linear',
+					data: {
+						label: function(d) {
+							return d.toFixed(2);
+						}
+					}
+				}
+			]
+		});
+
+		volume.mouse(function(mouse) {
+			return mouse;
+		});
+
+		d3.json('./data/line-data.json', function(data) {
+			var result = data.map(function(d) {
+				return [new Date(d[0]).getTime(),  d[1] , (d[1] - 300) / 100 < 1 ? 'minus' : 'plus'];
+			});
+			volume.render(result);
+		});
+
+		var player = cn.szse.chart.core.animate().duration(18000)
+		.watch(function(progress) {
+			timeseries.progress(progress);
+			volume.progress(progress);
+		});
+
+		var controls = player();
+	
+		setTimeout(function(){
+			controls.play();
+		}, 2000);
+	</script>
+</body>
+</html>

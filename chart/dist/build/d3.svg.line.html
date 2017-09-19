@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Line</title>
+	<link rel="stylesheet" type="text/css" href="chart.css">
+	<style type="text/css">
+		div.line{
+			background:#062433;
+			font: 12px '微软雅黑';
+		}
+	</style>
+</head>
+<body>
+	<div id="timeseries" class="line">
+		
+	</div>
+	<script type="text/javascript" src="./../lib/d3/3.5.2/d3.min.js"></script>
+	<script type="text/javascript" src="./cn.szse.chart.min.js"></script>
+	<script type="text/javascript">
+		var BASE_DATA = {width: 500, height: 300, scale: [null,null,
+		{index:0,type:'time',data:function(d){return(new Date(d)).getTime();},format:function(tick){var date=new Date(tick);return date.getHours()+':'+date.getMinutes() +"";}},
+		{index:1,type:'linear',data:function(d){return d;}/*,value:function(d){return d - 0;}*/,format:function(tick){return tick+'';}}]};
+	</script>
+	<script type="text/javascript">
+		var chart = cn.szse.chart;
+		var core = chart.core;
+		var widget = chart.widget;
+		var elements = chart.elements;
+		var shapes = chart.shapes;
+		/*
+		scope.progress = 0.5;
+		setTimeout(function() {
+			scope.width = 600;
+			scope.resizable = [scope.width, scope.height];
+		}, 5000);
+
+		setTimeout(function() {
+			scope.width = 230;
+			scope.resizable = [scope.width, scope.height];
+		}, 8000);
+
+		var controls = core.animate().duration(18000)
+		.watch(function(progress) {
+			scope.progress = progress;
+		});
+	
+		setTimeout(function(){
+			controls().play();
+		}, 3000)
+		*/
+		
+
+		d3.json('./line-data.json', function(data) {
+
+			var scope = core.dataset(BASE_DATA, [["2016/12/03 9:30",0],["2016/12/03 10:30", 100]]);
+			scope.uid = 's-chart-el-'+ core.utils.guid();
+			scope.progress = 0.5;
+
+			/*setTimeout(function() {
+				scope.width = 300;
+				scope.resizable = [scope.width, scope.height];
+			}, 5000);*/
+
+			function x(d, i) {
+				return scope.$Scale.get(2)(new Date(d[0]).getTime());
+			}
+
+			function y(d) {
+				return scope.$Scale.get(3)(d[1]);
+			}
+
+			function define(d) {
+				return !isNaN(d[1]);
+			}
+
+			var context = widget.paint('timeseries', scope.width, scope.height, scope)
+			.call(elements.desc, 'JavaScript Chart v0.9.2')
+			.call(widget.mask(scope))
+			.call(widget.pointerEvents(scope))
+			.call(widget.gridline(scope), function() {
+				return scope.$Scale.get(2);
+			}, function() {
+				return scope.$Scale.get(3);
+			})
+			.call(widget.ticks(scope))
+			.call(widget.tips(scope))
+			.call(widget.line(scope), scope.uid, [], x, y, define, true)
+			.call(widget.hover(scope));
+
+			scope.$watch('mouse', function(mouse) {
+				scope.tips = {
+					x: mouse[0],
+					y: mouse[1],
+					data: [null, null,'9:00',130]
+				}
+			});
+		});
+
+		
+
+	</script>
+</body>
+</html>
