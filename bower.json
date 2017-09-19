@@ -1,0 +1,23 @@
+{
+  "name": "k-chart",
+  "description": "",
+  "main": "",
+  "authors": [
+    "kaiyu5609 <1047935422@qq.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/lib/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "d3": "3.5.2",
+    "requirejs": "^2.3.5"
+  }
+}
