@@ -13,14 +13,58 @@ define(function(require, exports, module) {
     var Chart = require('k-chart/Chart');
     var Candlestick = require('k-chart/members/Candlestick');
 
-
-
-    var kline = new Candlestick({
+    var options = {
         domEl: document.getElementById('candlestick'),
-        width: 500,
-        height: 400,
-        dataSet: null
-    });
+        dataSet: null,
+        title: {
+            left: 'center',
+            // right: '',
+            text: 'K线图'
+        },
+        grid: {
+            left: '',
+            right: '',
+            top: '',
+            bottom: '',
+            width: 500,
+            height: 400
+        },
+        series: {
+            item: {
+
+            }
+        },
+        scales: [
+            {
+
+            }, {
+
+            }
+        ],
+        tooltip: {
+            bordeRadius: 4,
+            borderWidth: 1,
+            borderColor: '#09d',
+            backgroundColor: '#09d',
+            textStyle: {
+                fontSize: 12,
+                color: '#333'
+            },
+            position: function (pos, params, el, elRect, size) {
+
+            }
+        },
+        legend: {
+            left: '',
+            right: '',
+            top: '',
+            bottom: '',
+            data: []
+        },
+        animation: false
+    };
+
+    var kline = new Candlestick(options);
 
     kline.render();
 

@@ -18,6 +18,10 @@ define(function(require, exports, module) {
             .style('position', 'relative')
             .style('overflow', 'hidden')
             .call(SVG, this.options);
+
+            console.log(options);
+
+
         }
 
         render() {
