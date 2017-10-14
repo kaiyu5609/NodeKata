@@ -9,49 +9,8 @@ require.config({
 
 define(function(require, exports, module) {
 
-    var Request = require('k-chart/dataset/Request');
-
-    Request({
-        url: '/me?username=dhuang01.oth'
-    }).get().then(function(res) {
-        console.log(res);
-    }, function(err) {
-        console.log(err);
-    });
-
-    Request({
-        url: '/me/update',
-        data: {
-            age: '27',
-            job: 'Manager'
-        }
-    }).post().then(function(res) {
-        console.log(res);
-    }, function(err) {
-        console.log(err);
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // request
+    // require('test/core/request/Request');
 
 
 
@@ -60,7 +19,7 @@ define(function(require, exports, module) {
     var Chart = require('k-chart/Chart');
     var Candlestick = require('k-chart/members/Candlestick');
 
-    var options = {
+    /*var options = {
         domEl: document.getElementById('candlestick'),
         dataSet: null,
         title: {
@@ -109,19 +68,42 @@ define(function(require, exports, module) {
             data: []
         },
         animation: false
+    };*/
+
+    var options = {
+        domEl: document.getElementById('candlestick'),
+        dataSet: null,
+        title: {
+            left: 'center',
+            // right: '',
+            text: 'K线图'
+        },
+        grid: {
+            left: '',
+            right: '',
+            top: '',
+            bottom: '',
+            width: 500,
+            height: 400
+        },
+        series: {
+            item: {
+
+            }
+        },
+        scales: [
+            {
+
+            }, {
+
+            }
+        ],
+        animation: false
     };
 
     var kline = new Candlestick(options);
 
     kline.render();
-
-    kline.on('k-event', function(data) {
-          console.log(data);
-    });
-
-    setTimeout(function() {
-        kline.fire('k-event', 13412515);
-    }, 500);
 
 
 });
