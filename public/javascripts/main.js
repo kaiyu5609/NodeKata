@@ -9,6 +9,53 @@ require.config({
 
 define(function(require, exports, module) {
 
+    var Request = require('k-chart/dataset/Request');
+
+    Request({
+        url: '/me?username=dhuang01.oth'
+    }).get().then(function(res) {
+        console.log(res);
+    }, function(err) {
+        console.log(err);
+    });
+
+    Request({
+        url: '/me/update',
+        data: {
+            age: '27',
+            job: 'Manager'
+        }
+    }).post().then(function(res) {
+        console.log(res);
+    }, function(err) {
+        console.log(err);
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     var $ = require('jquery');
     var Chart = require('k-chart/Chart');
     var Candlestick = require('k-chart/members/Candlestick');
