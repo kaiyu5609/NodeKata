@@ -155,7 +155,7 @@ define(function(require, exports, module) {
         b,
         c;
 
-        if (cb === null) {
+        if (cb == null) {
             while (++i < n) {
                 if ((b = array[i]) !== null && b >= b) {
                     a = c = b;
@@ -244,7 +244,7 @@ define(function(require, exports, module) {
         a,
         b;
 
-        if (f === null) {
+        if (f == null) {
             while (++i < n) {
                 if ((b = array[i]) !== null && b >= b) {
                     a = b;
@@ -290,7 +290,7 @@ define(function(require, exports, module) {
         a,
         b;
 
-        if (f === null) {
+        if (f == null) {
             while (++i < n) {
                 if ((b = array[i]) !== null && b >= b) {
                     a = b;

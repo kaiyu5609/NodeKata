@@ -11,7 +11,9 @@ define(function(require, exports, module) {
 
     // request
     // require('test/core/request/Request');
-    require('k-chart/core/matrix');
+
+    // matrix
+    require('test/core/matrix');
 
 
 

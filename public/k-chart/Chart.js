@@ -19,13 +19,13 @@ define(function(require, exports, module) {
             .style('overflow', 'hidden')
             .call(SVG, this.options);
 
-            console.log(options);
+            // console.log("options:", options);
 
 
         }
 
         render() {
-            console.log('render');
+            // console.log('chart-render');
         }
     }
 

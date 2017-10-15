@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     var Chart = require('k-chart/Chart');
 
 
-    console.log(Utils);
+    // console.log("Utils", Utils);
 
     class Candlestick extends Chart {
         constructor(options) {
@@ -12,7 +12,7 @@ define(function(require, exports, module) {
         }
 
         render() {
-            console.log('render2');
+            // console.log('kline-render2');
         }
     }
 
