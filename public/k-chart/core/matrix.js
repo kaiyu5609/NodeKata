@@ -31,7 +31,7 @@ define(function(require, exports, module) {
         var deg = 0, val = 15;
 
         if (!list.length) {
-            return { deg: 0, val: 0 };
+            return { deg: 0, val: 15 };
         }
 
         if (isOverlap(list, meanValue)) {
@@ -46,7 +46,7 @@ define(function(require, exports, module) {
         return { deg: deg, val: val };
     }
 
-    function fnMatrix(width, height, tickPixelList) {
+    function fnMatrix(options, tickPixelList) {
 
         var matrixOptions = {
             leftDeg: 0, leftVal: 0,
@@ -66,21 +66,24 @@ define(function(require, exports, module) {
         var btmLastTick = btmTicks[btmTicks.length - 1];// 最后一个刻度label长度
         var topLastTick = topTicks[topTicks.length - 1];// 最后一个刻度label长度
 
-        lftTicks.push(btmFirstTick / 2, topFirstTick / 2);
-        rhtTicks.push(btmLastTick / 2, topLastTick / 2);
+        lftTicks.push(+options.leftVal, btmFirstTick / 2, topFirstTick / 2);
+        rhtTicks.push(+options.rightVal, btmLastTick / 2, topLastTick / 2);
 
         var leftVal = Utils.max(lftTicks);
         var rightVal = Utils.max(rhtTicks);
 
-        if (leftVal < rightVal) {
-            leftVal = rightVal;
-        } else if (leftVal > rightVal){
-            rightVal = leftVal;
+        if (options.hSymmetrical) {
+            if (leftVal < rightVal) {
+                leftVal = rightVal;
+            } else if (leftVal > rightVal){
+                rightVal = leftVal;
+            }
         }
 
         var btmTicksLength = btmTicks.length;
         var topTicksLength = topTicks.length;
-        var contentWidth = width - leftVal - rightVal;
+        var contentWidth = options.width - leftVal - rightVal;
+        // console.log(options);
 
         var btmMeanVal = btmTicksLength > 1 ? (contentWidth / btmTicksLength) : 5;
         var topMeanVal = topTicksLength > 1 ? (contentWidth / topTicksLength) : 5;
@@ -98,13 +101,13 @@ define(function(require, exports, module) {
         return matrixOptions;
     }
 
-    function matrix(width, height, tickLabelList) {
+    function matrix(options, tickLabelList) {
         /**
          * 计算四个轴tickLabel的长度
          * @return [[30.029296875, 30.029296875], [30.029296875, 30.029296875], [0], [0]]
          */
         var tickPixelList = tickLabelList.map(function(list) {
-            return getLabelsPixel(list);
+            return list ? getLabelsPixel(list) : [];
         });
 
         // console.log(tickPixelList);
@@ -119,7 +122,7 @@ define(function(require, exports, module) {
                 topDeg: 0, topVal: 0
            }
          */
-        return fnMatrix(width, height, tickPixelList);
+        return fnMatrix(options, tickPixelList);
     }
 
     module.exports = matrix;

@@ -1153,6 +1153,21 @@ define(function(require, exports, module) {
         return dataFilter;
     }
 
+    function fixedZero(val) {
+        if (val < 10) {
+            return '0' + val;
+        }
+        return val;
+    }
+
+    function timeFormat(d) {
+        var t = new Date(d);
+        var hh = fixedZero(t.getHours());
+        var mm = fixedZero(t.getMinutes());
+        return hh + ':' + mm;
+    }
+
+
     exports.version  = version;
     exports.guid     = guid;
     exports.measure  = measure;
@@ -1174,11 +1189,12 @@ define(function(require, exports, module) {
     exports.shuffle  = shuffle;
     exports.constant = constant;
     exports.merge    = merge;
+    exports.klinear  = linear;
     exports.linear   = linear;
     exports.time     = time;
     exports.extime   = extime;
     exports.ordinal  = ordinal;
     exports.gather   = gather;
-
+    exports.timeFormat = timeFormat;
 
 });

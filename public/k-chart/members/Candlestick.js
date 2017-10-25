@@ -3,15 +3,27 @@ define(function(require, exports, module) {
     var Utils = require('k-chart/Utils');
     var Chart = require('k-chart/Chart');
 
-
     // console.log("Utils", Utils);
 
     class Candlestick extends Chart {
         constructor(options) {
+            var defaults = {
+
+            };
+
+            options = Utils.merge(defaults, options);
+
             super(options);
+
+            this.options = options;
+
+            this._dataSet.$watch('scales', function(scales) {
+                // console.log(scales);
+            });
         }
 
-        render() {
+        render(data) {
+            super.render(data);
             // console.log('kline-render2');
         }
     }

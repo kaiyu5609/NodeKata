@@ -8,13 +8,30 @@ a {
   color: #00B7FF;
 }
 
+.container {
+    background: #062433;
+}
+
 .k-chart-container {
     width: 100%;
     height: 400px;
-    background: #999;
 }
 
-#matrix {
+svg {
+    /*background: #aaa;*/
+}
+
+g.grid-line line {
+	stroke: rgba(150,150,150, 0.2);
+}
+
+g.grid-line line.graph-zero {
+	stroke-dasharray: 2;
+	stroke: rgba(255,255,255, 0.5);
+	stroke-width: 1.5px;
+}
+
+.matrix {
     width: 100%;
     height: 200px;
     background-color: #999;
@@ -24,6 +41,6 @@ a {
     text-align: center;
 }
 
-#matrix span {
+.matrix span {
     display: inline-block;
 }

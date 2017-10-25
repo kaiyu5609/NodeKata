@@ -9,11 +9,12 @@ define(function(require, exports, module) {
         .attr('class', 'k-chart')
         .style('display', 'block');
 
-        svg.attr('width', options.grid.width)
-        .attr('height', options.grid.height);
+        svg.attr('width', options.width)
+        .attr('height', options.height);
 
         svg.exit().remove();
 
+        return svg;
     }
 
     module.exports = SVG;
