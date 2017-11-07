@@ -6,11 +6,13 @@ define(function(require, exports, module) {
 
         svg.enter()
         .append('svg')
-        .attr('class', 'k-chart')
-        .style('display', 'block');
+        .style('display', 'block')
+        .attr('class', 'k-chart');
 
-        svg.attr('width', options.width)
-        .attr('height', options.height);
+        svg.attr({
+            'width': options.width,
+            'height': options.height
+        });
 
         svg.exit().remove();
 

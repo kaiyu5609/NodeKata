@@ -2,9 +2,9 @@ doctype html
 html
   head
     title= title
+    link(rel='stylesheet', href='/stylesheets/global.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
 
     script(src='/lib/requirejs/require.js', data-main='/javascripts/main')
-

@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
     function d3SvgGridLine(context, data) {
 
-        var grid = context.selectAll('g.grid-line').data(['grid-line']);
+        var grid = context.selectAll('g.grid').data(['grid']);
 
     	grid.enter().append('g').attr('class', (d) => d);
 

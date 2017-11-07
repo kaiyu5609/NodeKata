@@ -27,11 +27,11 @@ define(function(require, exports, module) {
     }
 
     // 若重叠，则旋转-30度
-    function getXLabelPixel(list, meanValue) {
-        var deg = 0, val = 15;
+    function getXLabelPixel(list, meanValue, value) {
+        var deg = 0, val = value || 15;
 
         if (!list.length) {
-            return { deg: 0, val: 15 };
+            return { deg: 0, val: value || 15 };
         }
 
         if (isOverlap(list, meanValue)) {
@@ -69,7 +69,7 @@ define(function(require, exports, module) {
         lftTicks.push(+options.leftVal, btmFirstTick / 2, topFirstTick / 2);
         rhtTicks.push(+options.rightVal, btmLastTick / 2, topLastTick / 2);
 
-        var leftVal = Utils.max(lftTicks);
+        var leftVal = Utils.max(lftTicks) + 12;// 加12像素：左右padding6
         var rightVal = Utils.max(rhtTicks);
 
         if (options.hSymmetrical) {
@@ -82,15 +82,20 @@ define(function(require, exports, module) {
 
         var btmTicksLength = btmTicks.length;
         var topTicksLength = topTicks.length;
-        var contentWidth = options.width - leftVal - rightVal;
+        var plotWidth = options.width - leftVal - rightVal;
+
         // console.log(options);
 
-        var btmMeanVal = btmTicksLength > 1 ? (contentWidth / btmTicksLength) : 5;
-        var topMeanVal = topTicksLength > 1 ? (contentWidth / topTicksLength) : 5;
+        var btmMeanVal = btmTicksLength > 1 ? (plotWidth / btmTicksLength) : 5;
+        var topMeanVal = topTicksLength > 1 ? (plotWidth / topTicksLength) : 5;
 
-        var btmLayout = getXLabelPixel(btmTicks, btmMeanVal);
+        var btmLayout = getXLabelPixel(btmTicks, btmMeanVal, 25);
         var topLayout = getXLabelPixel(topTicks, topMeanVal);
 
+        var plotHeight = options.height - topLayout.val - btmLayout.val;
+
+        matrixOptions.plotWidth = plotWidth;
+        matrixOptions.plotHeight = plotHeight;
         matrixOptions.leftVal = leftVal;
         matrixOptions.rightVal = rightVal;
         matrixOptions.bottomDeg = btmLayout.deg;

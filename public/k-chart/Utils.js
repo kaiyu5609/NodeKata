@@ -10,11 +10,11 @@ define(function(require, exports, module) {
      * @returns {String}
      */
     var guid = (function () {
-            var u = Date.now();
-            return function () {
-                return (u++).toString(16);
-            };
-        })();
+        var u = Date.now();
+        return function () {
+            return (u++).toString(16);
+        };
+    })();
 
     /**
      * Canvas文本
@@ -25,21 +25,21 @@ define(function(require, exports, module) {
      * @returns {Object}
      */
     var measure = (function() {
-            try{
-                var canvas = document.createElement("canvas");
-                canvas.width = 1;
-                canvas.height = 1;
-                return function (label, font) {
-                    var context = canvas.getContext("2d");
-                    context.font = font || '12px Arial';
-                    return context.measureText(label);
-                };
-            } catch(e) {
-                return function() {
-                    return 0;
-                };
-            }
-        })();
+        try{
+            var canvas = document.createElement("canvas");
+            canvas.width = 1;
+            canvas.height = 1;
+            return function (label, font) {
+                var context = canvas.getContext("2d");
+                context.font = font || '12px Arial';
+                return context.measureText(label);
+            };
+        } catch(e) {
+            return function() {
+                return 0;
+            };
+        }
+    })();
 
     /**
      * 转化数字
@@ -758,6 +758,8 @@ define(function(require, exports, module) {
             return buffer;
         };
 
+        linear.extent = extent(buffer);
+
         return linear;
     }
 
@@ -993,7 +995,7 @@ define(function(require, exports, module) {
         var interval;
         var step;
         if(i === TIME_LIST.length) {
-            interval = methods.year;
+            interval = TIME_LIST[i - 1][0];
             step = range(extent.map(function(d) {
                 return d / 31536e6;
             }), count)[2];
@@ -1167,6 +1169,15 @@ define(function(require, exports, module) {
         return hh + ':' + mm;
     }
 
+    function bind(elements, type, listener) {
+        if (!elements.length) {
+            elements = [elements];
+        }
+        each(elements, function(element) {
+            element.addEventListener(type, listener, false);
+        });
+    }
+
 
     exports.version  = version;
     exports.guid     = guid;
@@ -1196,5 +1207,6 @@ define(function(require, exports, module) {
     exports.ordinal  = ordinal;
     exports.gather   = gather;
     exports.timeFormat = timeFormat;
+    exports.bind  = bind;
 
 });

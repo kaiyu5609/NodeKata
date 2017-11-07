@@ -1,19 +1,19 @@
 define(function(require, exports, module) {
 
     var SVG = require('k-chart/shapes/SVG');
+    var container;
 
     function d3SvgPaint(options) {
 
-    	var container = d3.select(options.domEl)
-            .attr('class', 'k-chart-container')
-            .style({
-                'position': 'relative',
-                'overflow': 'hidden'
-            });
+        container = container || d3.select(options.domEl);
 
-    	var context = SVG(container, options);
+        container.attr('class', 'k-chart-container')
+        .style({
+            'position': 'relative',
+            'overflow': 'hidden'
+        });
 
-    	return context;
+    	return SVG(container, options);
     }
 
     module.exports = d3SvgPaint;
