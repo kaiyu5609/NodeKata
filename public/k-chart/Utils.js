@@ -1207,6 +1207,6 @@ define(function(require, exports, module) {
     exports.ordinal  = ordinal;
     exports.gather   = gather;
     exports.timeFormat = timeFormat;
-    exports.bind  = bind;
+    exports.bind     = bind;
 
 });

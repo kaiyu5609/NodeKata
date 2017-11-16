@@ -138,9 +138,6 @@ define(function(require, exports, module) {
                 if (offsetWidth === options.width) { return false; }
 
                 options.width = offsetWidth;
-
-                d3SvgPaint(options);
-
                 self._dataSet.resize = { width: offsetWidth };
             });
 

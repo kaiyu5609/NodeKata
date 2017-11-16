@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     var Utils = require('k-chart/Utils');
-    var observer = require('k-chart/core/Observer');
+    var Observer = require('k-chart/core/Observer');
     var matrix = require('k-chart/core/matrix');
 
     // 随机数据
@@ -8,7 +8,7 @@ define(function(require, exports, module) {
         return Math.floor(Math.random() * (stop - start) + start);
     }
 
-    class ChartDataSet extends observer {
+    class ChartDataSet extends Observer {
 
         constructor(options) {
             super(options);
@@ -85,7 +85,7 @@ define(function(require, exports, module) {
                 if (!axis) { return null; }
                 var extent = extents[axis.type](data);
                 var scale = Utils[axis.type];
-                extent = self.options.axis[index].extent(extent) || extent;
+                extent = axis.extent(extent) || extent;
                 return scale(extent);
             });
 
@@ -112,7 +112,6 @@ define(function(require, exports, module) {
 
             scales.forEach(function(scale, index) {
                 if (!scale) { return null; }
-
         		return scale.range(ranges[index]);
         	});
 
@@ -126,7 +125,7 @@ define(function(require, exports, module) {
             if (typeof index === 'string') {
                 index = map[index];
             }
-            return (name !== undefined) ? this.scales[index] : this.scales;
+            return (index !== undefined) ? this.scales[index] : this.scales;
         }
 
         // 获取坐标轴的数据
@@ -341,14 +340,12 @@ define(function(require, exports, module) {
                 data.push(obj);
             }
 
-            var tips = [
-                {
-                    left: _mouse[0] < 0 ? _mouse[0] + 'px' : (_mouse[0] > self.layoutData.plotWidth / 2 ? parseInt(self.layoutData.leftVal) + 'px' : ''),
-                    right: _mouse[0] < 0 ? '' : (_mouse[0] < self.layoutData.plotWidth / 2 ? parseInt(self.layoutData.rightVal) + 'px' : ''),
-                    top: _mouse[1] < 0 ? _mouse[1] + 'px' : (self.layoutData.topVal + 2) + 'px',
-                    data: data
-                }
-            ];
+            var tips = [{
+                left: _mouse[0] < 0 ? _mouse[0] + 'px' : (_mouse[0] > self.layoutData.plotWidth / 2 ? parseInt(self.layoutData.leftVal) + 'px' : ''),
+                right: _mouse[0] < 0 ? '' : (_mouse[0] < self.layoutData.plotWidth / 2 ? parseInt(self.layoutData.rightVal) + 'px' : ''),
+                top: _mouse[1] < 0 ? _mouse[1] + 'px' : (self.layoutData.topVal + 2) + 'px',
+                data: data
+            }];
 
             return tips;
         }
@@ -357,7 +354,7 @@ define(function(require, exports, module) {
             var self = this;
 
             if (flag) {
-                this.datas = this._datas.concat(data);
+                this.datas = this.datas.concat(data);
             } else {
                 this.datas = data;
             }
