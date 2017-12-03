@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     var d3 = require('d3');
     var EventEmitter = require('k-chart/core/event-emitter/EventEmitter');
-    var Utils = require('k-chart/Utils');
+    var Utils = require('k-chart/core/Utils');
 
     var ChartDataSet = require('k-chart/core/ChartDataSet');
 
@@ -53,7 +53,7 @@ define(function(require, exports, module) {
 
             this.options = options = Utils.merge(defaults, options);
 
-            console.log(options);
+            // console.log(options);
 
             this.container = d3.select(options.domEl);
 
@@ -76,7 +76,7 @@ define(function(require, exports, module) {
                 if (options.grid.display === 'block') {
                     // 网格线
                     var gridLineData = this.getGridLineData();
-                    var grid = self.context.call(d3SvgGridLine, gridLineData);
+                    self.context.call(d3SvgGridLine, gridLineData);
 
                     // 坐标轴
                     var axisData = this.getAxisData();
@@ -137,6 +137,8 @@ define(function(require, exports, module) {
                 var offsetWidth = options.domEl.offsetWidth;
                 if (offsetWidth === options.width) { return false; }
 
+                console.log(offsetWidth);
+
                 options.width = offsetWidth;
                 self._dataSet.resize = { width: offsetWidth };
             });
@@ -152,7 +154,7 @@ define(function(require, exports, module) {
         }
 
         render(data) {
-            console.log("chart's render");
+            // console.log("chart's render");
 
             this._isEmptyPlot = false;
             if (!data.length) {

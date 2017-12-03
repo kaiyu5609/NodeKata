@@ -1179,6 +1179,13 @@ define(function(require, exports, module) {
     }
 
 
+
+    // 数据转换
+    function convertData(response, cType, swap) {
+
+    }
+
+
     exports.version  = version;
     exports.guid     = guid;
     exports.measure  = measure;
@@ -1208,5 +1215,6 @@ define(function(require, exports, module) {
     exports.gather   = gather;
     exports.timeFormat = timeFormat;
     exports.bind     = bind;
+    exports.convertData = convertData;
 
 });

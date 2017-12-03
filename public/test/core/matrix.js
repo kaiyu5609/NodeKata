@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
 
     var matrix = require('k-chart/core/matrix');
-    var Utils = require('k-chart/Utils');
+    var Utils = require('k-chart/core/Utils');
     var $ = require('jquery');
 
     var options = {

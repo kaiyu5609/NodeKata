@@ -16,7 +16,13 @@ define(function(require, exports, module) {
     // matrix
     // require('test/core/matrix');
 
-    var Utils = require('k-chart/Utils');
+    // Utils
+    require('test/core/Utils');
+
+    
+
+
+    var Utils = require('k-chart/core/Utils');
     var $ = require('jquery');
     var Chart = require('k-chart/Chart');
 
@@ -139,4 +145,7 @@ define(function(require, exports, module) {
     // }, 1000);
 
 
+    $('.btn').on('click', function() {
+        $('#candlestick').show();
+    })
 });

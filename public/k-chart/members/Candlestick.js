@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    var Utils = require('k-chart/Utils');
+    var Utils = require('k-chart/core/Utils');
     var Chart = require('k-chart/Chart');
     var d3SvgCandlestick = require('k-chart/shapes/d3SvgCandlestick');
 
@@ -25,14 +25,12 @@ define(function(require, exports, module) {
             var self = this;
 
             this._dataSet.$watch('scales', function(scales) {
-                var data, size, band = 1;
+                var data = [], size = 0, band = 1;
 
-                if (self._isEmptyPlot) {
-                    data = [];
-                } else {
+                if (!self._isEmptyPlot) {
                     data = this.getCandlestickData();
+                    size = data.length;
                 }
-                size = data.length;
 
                 if (size) {
                     band = Math.floor(this.layoutData.plotWidth / size * 0.6);

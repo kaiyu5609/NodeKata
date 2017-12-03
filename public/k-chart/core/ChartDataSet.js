@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    var Utils = require('k-chart/Utils');
+    var Utils = require('k-chart/core/Utils');
     var Observer = require('k-chart/core/Observer');
     var matrix = require('k-chart/core/matrix');
 
@@ -38,6 +38,7 @@ define(function(require, exports, module) {
 
         // 获取布局信息
         _getLayoutData(domains) {
+            // console.log(this.options.width);
             return this.layoutData = matrix({
                 width: this.options.width,
                 height: this.options.height,
@@ -211,6 +212,7 @@ define(function(require, exports, module) {
         // 获取网格事件触发层数据
         getGridLayerData() {
             var self = this;
+            // console.log(self.layoutData.plotWidth)
             return [{
                 left: self.layoutData.leftVal + 1,
                 top: self.layoutData.topVal + 1,
