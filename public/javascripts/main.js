@@ -14,10 +14,10 @@ define(function(require, exports, module) {
     // require('test/core/request/Request');
 
     // matrix
-    // require('test/core/matrix');
+    // require('test/k-chart/core/matrix');
 
     // Utils
-    require('test/core/Utils');
+    require('test/k-chart/core/Utils');
 
     // DataSet
     var DataSet = require('dataset/DataSet');
