@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     var d3 = require('d3');
-    var EventEmitter = require('k-chart/core/event-emitter/EventEmitter');
+    var EventEmitter = require('core/event-emitter/EventEmitter');
     var Utils = require('k-chart/core/Utils');
 
     var ChartDataSet = require('k-chart/core/ChartDataSet');
