@@ -17,14 +17,12 @@ define(function(require, exports, module) {
     // require('test/k-chart/core/matrix');
 
     // Utils
-    require('test/k-chart/core/Utils');
+    // require('test/k-chart/core/Utils');
 
     // DataSet
-    var DataSet = require('dataset/DataSet');
-
-    var dataset = new DataSet({});
-
-    console.log(dataset);
+    // var DataSet = require('dataset/DataSet');
+    // var dataset = new DataSet({});
+    // console.log(dataset);
 
 
 

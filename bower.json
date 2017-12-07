@@ -19,5 +19,8 @@
     "jquery": "^3.2.1",
     "d3": "3.5.2",
     "requirejs": "^2.3.5"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.7"
   }
 }

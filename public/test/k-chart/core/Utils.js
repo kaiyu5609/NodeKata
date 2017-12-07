@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
     var Utils = require('k-chart/core/Utils');
 
-    console.log(Utils);
+    // console.log(Utils);
 
     var data = [
         {"time":"2016/8/2 09:30","series":"深圳成指","open":19.79,"high":19.79,"low":17.85,"close":18.85},
@@ -29,12 +29,12 @@ define(function(require, exports, module) {
     ];
 
     function getCategorySeries(data) {
-        var category = [], series = [], _category = {}, _series = {};
+        var categories = [], series = [], _categories = {}, _series = {};
         data.forEach(function (item, index) {
             var t = item['time'], s = item['series'];
-            if (!_category.hasOwnProperty(t)) {
-                _category[t] = 1;
-                category.push(item.time);
+            if (!_categories.hasOwnProperty(t)) {
+                _categories[t] = 1;
+                categories.push(item.time);
             }
             if (!_series.hasOwnProperty(s)) {
                 _series[s] = 1;
@@ -42,7 +42,7 @@ define(function(require, exports, module) {
             }
         });
         return {
-            category: category,
+            categories: categories,
             series: series
         };
     }
@@ -52,26 +52,40 @@ define(function(require, exports, module) {
     console.log(cs);
 
     function getData(data) {
+        console.log(data);
         var res = cs.series.map(function(s, i) {
-            var buffer = [], d = {};
+            var d = { name: s, data: [] };
 
             data.forEach(function(item, index) {
                 if (item['series'] === s) {
-                    d.name = s;
+                    d.data.push(item);
                 }
-                buffer.push(d);
             });
 
-            return buffer;
+            return d;
 
         });
 
         console.log(res);
+        return res;
     }
 
-    getData(data)
+    var result = getData(data);
 
 
+    var res = cs.categories.map(function(category, index) {
+        // console.log(category, index);
+
+        var item = [category];
+
+        cs.series.forEach(function(s, i) {
+            item.push(result[i].data[index]['open']);
+        });
+
+        return item;
+    });
+
+    console.log(res);
 
 
 
