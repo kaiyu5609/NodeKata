@@ -51,16 +51,27 @@ define(function(require, exports, module) {
 
     console.log(cs);
 
-    var res = cs.category.map(function(c, i) {
-        var item = {};
+    function getData(data) {
+        var res = cs.series.map(function(s, i) {
+            var buffer = [], d = {};
 
-        return cs.series.map(function(s, j) {
-            return s;
+            data.forEach(function(item, index) {
+                if (item['series'] === s) {
+                    d.name = s;
+                }
+                buffer.push(d);
+            });
+
+            return buffer;
+
         });
 
-    });
+        console.log(res);
+    }
 
-    console.log(res);
+    getData(data)
+
+
 
 
 
