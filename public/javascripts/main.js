@@ -19,7 +19,13 @@ define(function(require, exports, module) {
     // Utils
     require('test/core/Utils');
 
-    
+    // DataSet
+    var DataSet = require('dataset/DataSet');
+
+    var dataset = new DataSet({});
+
+    console.log(dataset);
+
 
 
     var Utils = require('k-chart/core/Utils');
