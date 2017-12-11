@@ -24,6 +24,15 @@ define(function(require, exports, module) {
     // var dataset = new DataSet({});
     // console.log(dataset);
 
+    // ArrayRowDataSet
+    var ArrayRowDataSet = require('data/ArrayRowDataSet');
+    var arrayRowDataSet = new ArrayRowDataSet({
+        columnModel: [],
+        data: []
+    });
+
+    console.log(arrayRowDataSet);
+
 
 
     var Utils = require('k-chart/core/Utils');
@@ -149,7 +158,7 @@ define(function(require, exports, module) {
     // }, 1000);
 
 
-    $('.btn').on('click', function() {
-        $('#candlestick').show();
-    })
+    // $('.btn').on('click', function() {
+    //     $('#candlestick').show();
+    // })
 });
