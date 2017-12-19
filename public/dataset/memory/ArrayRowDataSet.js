@@ -4,19 +4,19 @@ define(function(require, exports, module) {
 
     class ArrayRowDataSet extends RowDataSet {
 
-        constructor(config) {
-            super(config || {});
+        constructor(options) {
+            super(options || {});
 
             this.type = 'array';
-            this.columnModels = config.columnModel;
+            this.columnModel = options.columnModel;
             this._actions = [];
-            if (config.data && config.data.length) {
-                this.total = config.data.length;
+            if (options.data && options.data.length) {
+                this.total = options.data.length;
             }
 
-            this._datas = this._extendPropsToDatas(config.data);
+            this._datas = this._extendPropsToDatas(options.data);
 
-            this._sourceDatas = config.data;
+            this._sourceDatas = options.data;
         }
 
         setData(datas, flag) {
@@ -188,11 +188,45 @@ define(function(require, exports, module) {
         value(operation) {
             var actions = this._actions, self = this, args, result;
             actions = this._setActions(actions);
-            
+
+            console.log('actions:', actions);
+
+            return new Promise(function(resolve, reject) {
+                actions.forEach(function(action, index) {
+                    try {
+                        if (!((args = action.args) instanceof Array)) {
+                            args = Array.prototype.slice.call(args);
+                        }
+                        result = self.ds._chainResult = action.func.apply(self.ds, args);
+                    } catch (e) {
+                        self.ds._chainResult = null;
+                        console.log(action.func.name + ' 函数出错');
+                        reject(action.func.name + '函数出错');
+                        return;
+                    }
+                });
+                self.ds._chainResult = null;
+                resolve(operation === 'statistic' ? result : {
+                    data: result
+                });
+            })
+
         }
 
         done() {
+            var actions = this._actions, self = this, args, result;
+            actions = this._setActions(actions);
 
+            console.log('actions:', actions);
+
+            actions.forEach(function(action, index) {
+                if (!((args = action.args) instanceof Array)) {
+                    args = Array.prototype.slice.call(args);
+                }
+                result = self.ds._chainResult = action.func.apply(self.ds, args);
+            });
+            self.ds._chainResult = null;
+            return result;
         }
 
 

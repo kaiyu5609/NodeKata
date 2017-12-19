@@ -25,7 +25,7 @@ define(function(require, exports, module) {
     // console.log(dataset);
 
     // ArrayRowDataSet
-    var ArrayRowDataSet = require('data/ArrayRowDataSet');
+    var ArrayRowDataSet = require('dataset/memory/ArrayRowDataSet');
     var arrayRowDataSet = new ArrayRowDataSet({
         columnModel: [],
         data: []

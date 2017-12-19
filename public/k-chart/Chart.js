@@ -137,7 +137,7 @@ define(function(require, exports, module) {
                 var offsetWidth = options.domEl.offsetWidth;
                 if (offsetWidth === options.width) { return false; }
 
-                console.log(offsetWidth);
+                // console.log(offsetWidth);
 
                 options.width = offsetWidth;
                 self._dataSet.resize = { width: offsetWidth };
