@@ -10,6 +10,10 @@ router.get('/test', function(req, res, next) {
     res.render('unit-test', { title: 'unit-test' });
 });
 
+router.get('/array', function(req, res, next) {
+    res.render('array', { title: 'arrray' });
+});
+
 function Logger() {
     return {
         log: function(req) {
