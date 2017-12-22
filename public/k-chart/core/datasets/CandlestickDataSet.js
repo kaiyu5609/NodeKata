@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
-    var Utils = require('k-chart/core/Utils');
-    var ChartDataSet = require('k-chart/core/ChartDataSet');
+    var Utils = require('./Utils');
+    var ChartDataSet = require('./ChartDataSet');
 
     class CandlestickDataSet extends ChartDataSet {
 

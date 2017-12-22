@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var database = require('./database');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Candlestick' });
@@ -52,6 +54,24 @@ router.post('/me/update', function(req, res, next) {
             sex: '男',
             job: req.body.job || ''
         }]
+    });
+});
+
+router.get('/query/kline-data-1', function(req, res, next) {
+    res.json({
+        success: true,
+        erroCode: null,
+        message: null,
+        data: database.getKlineData1()
+    });
+});
+
+router.get('/query/kline-data-2', function(req, res, next) {
+    res.json({
+        success: true,
+        erroCode: null,
+        message: null,
+        data: database.getKlineData2()
     });
 });
 

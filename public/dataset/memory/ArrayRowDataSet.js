@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
-    var _ = require('lodash');
-    var RowDataSet = require('dataset/RowDataSet');
-    var Sort = require('dataset/core/Sort');
+    var _ = require('../../core/shim/shim').lodash;
+    var RowDataSet = require('../RowDataSet');
+    var Sort = require('../core/Sort');
 
     class ArrayRowDataSet extends RowDataSet {
 

@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
-    var Utils = require('k-chart/core/Utils');
-    var Observer = require('k-chart/core/Observer');
-    var matrix = require('k-chart/core/matrix');
+    var Utils = require('./Utils');
+    var Observer = require('./Observer');
+    var matrix = require('./matrix');
 
     // 随机数据
     function getRandom(start, stop) {

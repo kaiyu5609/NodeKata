@@ -1,15 +1,19 @@
 require.config({
    baseUrl: '/',
    paths: {
-       jquery: './lib/jquery/dist/jquery',
+       jquery: './lib/jquery/dist/jquery.min',
        d3: './lib/d3/d3.min',
-       lodash: './lib/lodash/lodash',
+       lodash: './lib/lodash/dist/lodash.min',
        database: './javascripts/data'
    }
 });
 
 
 define(function(require, exports, module) {
+    var $ = require('jquery');
+    var d3 = require('d3');
+    var lodash = require('lodash');
+    var Request = require('../core/request/Request');
 
     // request
     // require('test/core/request/Request');
@@ -59,14 +63,9 @@ define(function(require, exports, module) {
         console.log(res);
     });
 
-
-
     var Utils = require('k-chart/core/Utils');
-    var $ = require('jquery');
     var Chart = require('k-chart/Chart');
-
     var Candlestick = require('k-chart/members/Candlestick');
-    var database = require('database');
 
     /*var options = {
         domEl: document.getElementById('candlestick'),
@@ -155,9 +154,10 @@ define(function(require, exports, module) {
 
     var kline = new Candlestick(options);
 
-
-    database.queryKlineData().then(function(data) {
-        var _data = data;
+    var queryKlineData = Request({
+        url: '/query/kline-data-1'
+    }).get().then(function(res) {
+        var _data = res.data;
         data = [];
 
         _data.forEach(function(d, i) {
@@ -183,8 +183,4 @@ define(function(require, exports, module) {
     //     kline.fire('axis-subline-enter', [xline, yline]);
     // }, 1000);
 
-
-    // $('.btn').on('click', function() {
-    //     $('#candlestick').show();
-    // })
 });

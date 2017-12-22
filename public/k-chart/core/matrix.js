@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-    var Utils = require('k-chart/core/Utils');
+    var Utils = require('./Utils');
 
     // 获取刻度的长度
     function getLabelsPixel(list) {

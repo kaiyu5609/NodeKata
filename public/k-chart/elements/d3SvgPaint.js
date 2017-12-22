@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-    var SVG = require('k-chart/shapes/SVG');
+    var SVG = require('../shapes/SVG');
     var container;
 
     function d3SvgPaint(options) {

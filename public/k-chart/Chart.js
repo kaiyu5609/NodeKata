@@ -1,17 +1,17 @@
 define(function(require, exports, module) {
-    var d3 = require('d3');
-    var EventEmitter = require('core/event-emitter/EventEmitter');
-    var Utils = require('k-chart/core/Utils');
+    var { d3 } = require('../core/shim/shim');
+    var EventEmitter = require('../core/event-emitter/EventEmitter');
 
-    var ChartDataSet = require('k-chart/core/ChartDataSet');
+    var Utils = require('./core/Utils');
+    var ChartDataSet = require('./core/ChartDataSet');
 
-    var d3SvgPaint = require('k-chart/elements/d3SvgPaint');
-    var d3SvgGridLine = require('k-chart/elements/d3SvgGridLine');
-    var d3SvgAxisNode = require('k-chart/elements/d3SvgAxisNode');
-    var d3SvgAxisTips = require('k-chart/elements/d3SvgAxisTips');
-    var d3SvgGridLayer = require('k-chart/elements/d3SvgGridLayer');
-    var d3SvgAxisSubline = require('k-chart/elements/d3SvgAxisSubline');
-    var d3SvgTooltips = require('k-chart/elements/d3SvgTooltips');
+    var d3SvgPaint = require('./elements/d3SvgPaint');
+    var d3SvgGridLine = require('./elements/d3SvgGridLine');
+    var d3SvgAxisNode = require('./elements/d3SvgAxisNode');
+    var d3SvgAxisTips = require('./elements/d3SvgAxisTips');
+    var d3SvgGridLayer = require('./elements/d3SvgGridLayer');
+    var d3SvgAxisSubline = require('./elements/d3SvgAxisSubline');
+    var d3SvgTooltips = require('./elements/d3SvgTooltips');
 
     class Chart extends EventEmitter {
 

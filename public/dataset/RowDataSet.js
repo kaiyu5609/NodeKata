@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-    var DataSet = require('dataset/DataSet');
+    var DataSet = require('./DataSet');
 
     class RowDataSet extends DataSet {
 

@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-    var EventEmitter = require('core/event-emitter/EventEmitter');
+    var EventEmitter = require('../core/event-emitter/EventEmitter');
 
     class DataSet extends EventEmitter {
         constructor(options) {
