@@ -3054,7 +3054,8 @@ var __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_RESULT__ = (function(re
 
     class SimpleGrid extends Component {
         constructor(options) {
-
+            super(options);
+            console.log('grid-options', options);
         }
 
         _bindEvent() {
