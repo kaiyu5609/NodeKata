@@ -2,13 +2,13 @@ var path = require('path')
 
 var config = {
 	entry: [
-		path.resolve(__dirname, 'public/k-chart/index.js')
+		path.resolve(__dirname, 'public/index.js')
 	],
 	output: {
-		path: path.resolve(__dirname, 'dist/k-chart/'),
-		filename: 'k.chart.js',
+		path: path.resolve(__dirname, 'dist/'),
+		filename: 'cube.js',
 		publicPath: 'dist',
-		library: 'chart'
+		library: 'cube'
 	},
 	devtool: 'source-map',
 	module: {

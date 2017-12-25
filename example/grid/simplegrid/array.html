@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>array</title>
+    </head>
+    <body>
+
+        <div class="content">
+            <div class="simple-grid" class="gird"></div>
+        </div>
+
+        <script src="../../../public/lib/jquery/dist/jquery.min.js"></script>
+        <script src="../../../public/lib/lodash/dist/lodash.min.js"></script>
+        <script src="../../../public/lib/d3/d3.min.js"></script>
+        <script src="../../../dist/cube.js"></script>
+        <script type="text/javascript">
+
+            function getRandom(start, end) {
+                return Math.floor(Math.random() * (end - start)) + start;
+            }
+
+            function createData(total) {
+                var mapPlayer = [
+                    '詹姆斯-哈登', '勒布朗-詹姆斯', '凯文-杜兰特', '德马库斯-考辛斯',
+                    '维克托-奥拉迪波', '达米安-利拉德', '安东尼-戴维斯', '凯里-欧文',
+                    '德玛尔-德罗赞', '拉塞尔-维斯布鲁克', '保罗-乔治', '克雷-汤普森'
+                ];
+                var mapTeam = [
+                    '火箭', '雄鹿', '骑士', '勇士', '步行者', '猛龙', '太阳', '雷霆',
+                    '奇才', '马刺', '黄蜂', '开拓者', '凯尔特人', '森林狼', '老鹰'
+                ];
+                var result = [];
+
+                while (total--) {
+                    result.push({
+                        'PLAYER': mapPlayer[getRandom(0, 11)],
+                        'TEAM': mapTeam[getRandom(0, 15)],
+                        'SCORE': getRandom(19, 34),
+                        'TOTAL': getRandom(600, 1000),
+                        'FGP': getRandom(40, 57) + '%',
+                        'TPSP': getRandom(26, 45) + '%',
+                        'FTP': getRandom(70, 92) + '%',
+                        'REBOUND': getRandom(6, 15),
+                        'ASSIST': getRandom(6, 15),
+                        'CLOCK': getRandom(29, 38),
+                        'TIME': getRandom(30, 35),
+                        'UNIFORM': getRandom(-10, 10)
+                    })
+                }
+                return result;
+            }
+
+            var uadTpl = [
+                '<span style="color:rgb(119,209,121)">(value)</span>',
+                '<span style="color:rgb(214,28,73)">(value)</span>'
+            ];
+
+            function upsAndDowns(v) {
+                return v < 0 ? uadTpl[0].replace(/{value}/, v) : (v > 0 ? uadTpl[1].replace(/{value}/, v) : v);
+            }
+
+            var columns = [
+                {text: '#', width: 20, renderer: function(v, m, o) {
+                    return '<a class="row-tips" tabindex="0" data-rowindex="'+ m.rowIndex +'">...</a>';
+                }},
+                {text: '球员', dataIndex: 'PLAYER', flex: 3, align: 'center'},
+                {text: '球队', dataIndex: 'TEAM', flex: 2, align: 'center'},
+                {text: '场均得分', dataIndex: 'SCORE', flex: 1, width: 150},
+                {text: '得分总数', dataIndex: 'TOTAL'},
+                {text: "\<input type=\'checkbox\' name='ss-all' class='select-all'>", dataIndex: 'cz', width: 120, renderer: function(v, m, r) {
+                    return '<input type="checkbox" name="ss" class="select-single"/> 数据';
+                }},
+                {text: '投篮命中率', dataIndex: 'FGP'},
+                {text: '三分命中率', dataIndex: 'TPSP'},
+                {text: '罚球命中率', dataIndex: 'FTP'},
+                {text: '篮板球', dataIndex: 'REBOUND'},
+                {text: '助攻', dataIndex: 'ASSIST'},
+                {text: '场均时间', dataIndex: 'CLOCK'},
+                {text: '参赛场次', dataIndex: 'TIME'},
+                {text: '球服', dataIndex: 'UNIFORM'}
+            ];
+
+            var dataSet = new cube.data.ArrayRowDataSet({
+                name: 'NBA',
+                columnModel: columns,
+                data: createData(50)
+            });
+
+            var config = {
+                domEl: document.getElementById('simple-grid'),
+                title: 'NBA球员技术统计',
+                width: '100%',
+                height: 400,
+                dataSet: dataSet,
+                columnModel: columns,
+                rows: {
+                    activeClass: 'active-row',
+                    setRowClass: function(record) {
+                        return record.ASSIST > 8 ? 'bg-highliht' : '';
+                    },
+                    preselect: function() {
+                        if (grid.view.getSelection().length > 2) {
+                            return false;
+                        }
+                        return true;
+                    },
+                    checkboxReadonly: function(record) {
+                        return '詹姆斯-哈登' == record.PLAYER;
+                    }
+                },
+                checkbox: true,
+                selType: 'checkboxmodel',
+                page: {
+                    type: 'scroll',
+                    pageSize: 15
+                }
+            };
+
+            var grid = new cube.grid.SimpleGrid(config);
+            grid.render();
+
+
+        </script>
+
+
+    </body>
+</html>
