@@ -3,11 +3,12 @@
     <head>
         <meta charset="utf-8">
         <title>array</title>
+        <link rel="stylesheet" type="text/css" href="./grid-black.css" />
     </head>
     <body>
 
         <div class="content">
-            <div class="simple-grid" class="gird"></div>
+            <div id="simple-grid" class="gird"></div>
         </div>
 
         <script src="../../../src/lib/jquery/dist/jquery.min.js"></script>
@@ -64,21 +65,21 @@
                 {text: '#', width: 20, renderer: function(v, m, o) {
                     return '<a class="row-tips" tabindex="0" data-rowindex="'+ m.rowIndex +'">...</a>';
                 }},
-                {text: '球员', dataIndex: 'PLAYER', flex: 3, align: 'center'},
-                {text: '球队', dataIndex: 'TEAM', flex: 2, align: 'center'},
-                {text: '场均得分', dataIndex: 'SCORE', flex: 1, width: 150},
-                {text: '得分总数', dataIndex: 'TOTAL'},
-                {text: "\<input type=\'checkbox\' name='ss-all' class='select-all'>", dataIndex: 'cz', width: 120, renderer: function(v, m, r) {
+                {text: '球员', dataIndex: 'PLAYER', flex: 4, align: 'center'},
+                {text: '球队', dataIndex: 'TEAM', flex: 2, width: 100, align: 'center'},
+                {text: '场均得分', dataIndex: 'SCORE', flex: 2, align: 'right'},
+                {text: '得分总数', dataIndex: 'TOTAL', flex: 2, align: 'right'},
+                {text: "\<input type=\'checkbox\' name='ss-all' class='select-all'>", dataIndex: 'cz', width: 80, renderer: function(v, m, r) {
                     return '<input type="checkbox" name="ss" class="select-single"/> 数据';
                 }},
-                {text: '投篮命中率', dataIndex: 'FGP'},
-                {text: '三分命中率', dataIndex: 'TPSP'},
-                {text: '罚球命中率', dataIndex: 'FTP'},
-                {text: '篮板球', dataIndex: 'REBOUND'},
-                {text: '助攻', dataIndex: 'ASSIST'},
-                {text: '场均时间', dataIndex: 'CLOCK'},
-                {text: '参赛场次', dataIndex: 'TIME'},
-                {text: '球服', dataIndex: 'UNIFORM'}
+                {text: '投篮命中率', dataIndex: 'FGP', align: 'right'},
+                {text: '三分命中率', dataIndex: 'TPSP', align: 'right'},
+                {text: '罚球命中率', dataIndex: 'FTP', align: 'right'},
+                {text: '篮板球', dataIndex: 'REBOUND', align: 'right'},
+                {text: '助攻', dataIndex: 'ASSIST', align: 'right'},
+                {text: '场均时间', dataIndex: 'CLOCK', align: 'right'},
+                {text: '参赛场次', dataIndex: 'TIME', align: 'right'},
+                {text: '球服', dataIndex: 'UNIFORM', align: 'right'}
             ];
 
             var dataSet = new cube.data.ArrayRowDataSet({

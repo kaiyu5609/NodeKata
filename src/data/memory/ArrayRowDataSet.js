@@ -237,6 +237,14 @@ define(function(require, exports, module) {
 
         }
 
+        operate(operation) {
+            
+        }
+
+        _operate() {
+
+        }
+
         max(columnName) {
             if (!columnName) throw 'invalid params';
             if (this instanceof ArrayRowDataSet) {
@@ -449,6 +457,7 @@ define(function(require, exports, module) {
     ActionWrapper.prototype.count = ArrayRowDataSet.prototype.count;
     ActionWrapper.prototype.limit = ArrayRowDataSet.prototype.limit;
     ActionWrapper.prototype.orderBy = ArrayRowDataSet.prototype.orderBy;
+    ActionWrapper.prototype.operate = ArrayRowDataSet.prototype.operate;
 
 
     module.exports = ArrayRowDataSet;

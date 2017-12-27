@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-    var { jQuery } = require('../shim/shim');
+    var { $ } = require('../shim/shim');
 
     // ajax对返回的原始数据进行预处理
     function defaultDataFilter(data, type) {
@@ -26,7 +26,7 @@ define(function(require, exports, module) {
         return {
             _convert: function(opts) {
                 var contentType = settings.contentType || 'application/json';
-                var defer = jQuery.Deferred();
+                var defer = $.Deferred();
                 var ajaxSettings = {
                     url: _settings.url,
                     type: opts.type,
@@ -44,7 +44,7 @@ define(function(require, exports, module) {
                     error: function(xhr) {}
                 };
 
-                jQuery.ajax(ajaxSettings)
+                $.ajax(ajaxSettings)
                 .done(function(res) {
                     if (res.success === true) {
                         defer.resolve(res);
@@ -104,21 +104,21 @@ define(function(require, exports, module) {
     }
 
     Request.Deferred = function() {
-        return jQuery.Deferred();
+        return $.Deferred();
     };
 
     Request.reject = function() {
-        var defer = jQuery.Deferred();
+        var defer = $.Deferred();
         defer.reject(arguments);
         return defer;
     };
 
     Request.when = function() {
-        return jQuery.when.apply(jQuery, arguments);
+        return $.when.apply($, arguments);
     };
 
     Request.step = function(queue) {
-        var defer = jQuery.Deferred(),
+        var defer = $.Deferred(),
             p, next;
 
         defer.resolve();
