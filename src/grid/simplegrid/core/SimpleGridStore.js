@@ -92,7 +92,7 @@ define(function(require, exports, module) {
             }
 
             if (trigger) {
-                // ds = ds.operate(trigger);
+                ds.operate(trigger);
             }
 
             ds.value().then(function(result) {

@@ -238,11 +238,18 @@ define(function(require, exports, module) {
         }
 
         operate(operation) {
-            
-        }
-
-        _operate() {
-
+            var self = this;
+            if (this instanceof ArrayRowDataSet) {
+                this.ds = this;
+            }
+            var action = [{
+                args: arguments,
+                func: function() {
+                    return self._chainResult || self._datas;
+                }
+            }];
+            var actions = this._actions.concat(action);
+            return new ActionWrapper(this.ds, actions, 'statistic');
         }
 
         max(columnName) {

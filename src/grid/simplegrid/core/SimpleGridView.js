@@ -529,7 +529,9 @@ define(function(require, exports, module) {
         return `<div class="s-record-header">
             <ul class="s-record-rows">
                 <li class="s-record-cell checkbox-col" data-sort="false">
-                    <div class="s-checkbox"></div>
+                    <div class="s-checkbox">
+                        <label class="s-checkbox-label"></label>
+                    </div>
                 </li>
                 <% _.forEach(columns, function(column, index) {%>
                     <li class="s-record-cell <% if (column.sortDir) { %> s-column-<%=column.sortDir%> <% } %>" data-index="<%-column.dataIndex%>" data-sort="<%=column._sortable%>">
@@ -569,7 +571,9 @@ define(function(require, exports, module) {
         return `<% _.forEach(items, function(item, idx) { %>
             <ul class="s-record-rows <%=fnSetRowClass(item)%> <% if (idx % 2 !== 0) { %>s-stripe-rows<% }%> <% if (fnCheckboxReadonly(item)) { %>s-readonly<% } %>" data-rownumber="<%=item.rownumber%>" tabindex="0">
                 <li class="s-record-cell checkbox-col<% if (fnCheckboxReadonly(item)) { %> s-readonly<% } %>">
-                    <div class="s-checkbox"></div>
+                    <div class="s-checkbox">
+                        <label class="s-checkbox-label"></label>
+                    </div>
                 </li>
                 <% _.forEach(columns, function(column, index) { %>
                     <li class="s-record-cell" data-dataindex="<%=column.dataIndex%>">
