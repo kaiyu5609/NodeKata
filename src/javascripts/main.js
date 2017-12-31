@@ -31,7 +31,7 @@ define(function(require, exports, module) {
 
     // ArrayRowDataSet
     // lodash、fecha、numeral、decimal、expr、pinyin
-    var ArrayRowDataSet = require('dataset/memory/ArrayRowDataSet');
+    var ArrayRowDataSet = require('data/memory/ArrayRowDataSet');
 
     var columns = [
         { dataIndex: 'id', vtype: 'number' },
@@ -59,13 +59,13 @@ define(function(require, exports, module) {
         console.log(res.data);
     });
 
-    arrayRowDataSet.max('score1').then(function(res) {
+    var maxVal = arrayRowDataSet.max('score1').then(function(res) {
         console.log(res);
     });
 
-    var Utils = require('k-chart/core/Utils');
-    var Chart = require('k-chart/Chart');
-    var Candlestick = require('k-chart/members/Candlestick');
+    var Utils = require('chart/core/Utils');
+    var Chart = require('chart/Chart');
+    var Candlestick = require('chart/members/Candlestick');
 
     /*var options = {
         domEl: document.getElementById('candlestick'),

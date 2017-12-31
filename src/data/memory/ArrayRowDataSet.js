@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    var _ = require('../../core/shim/shim').lodash;
+    var _ = require('../../core/shim/shim')._;
     var RowDataSet = require('../RowDataSet');
     var Sort = require('../core/Sort');
 
