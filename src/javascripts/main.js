@@ -31,41 +31,41 @@ define(function(require, exports, module) {
 
     // ArrayRowDataSet
     // lodash、fecha、numeral、decimal、expr、pinyin
-    var ArrayRowDataSet = require('data/memory/ArrayRowDataSet');
+    // var ArrayRowDataSet = require('data/memory/ArrayRowDataSet');
 
-    var columns = [
-        { dataIndex: 'id', vtype: 'number' },
-        { dataIndex: 'name', vtype: 'cn_string' },
-        { dataIndex: 'score1', vtype: 'number' },
-        { dataIndex: 'score2', vtype: 'number' }
-    ];
-
-    var datas = [
-        { 'id': 1, 'name': '交易重演', 'score1': 90, 'score2': 82 },
-        { 'id': 2, 'name': '实时监控', 'score1': 98, 'score2': 85 },
-        { 'id': 3, 'name': '访问控制', 'score1': 85, 'score2': 80 },
-        { 'id': 4, 'name': '市场分析', 'score1': 85, 'score2': 79 }
-    ];
-
-    var arrayRowDataSet = new ArrayRowDataSet({
-        columnModel: columns,
-        data: datas
-    });
-    console.log(arrayRowDataSet);
-
-    var orderResult = arrayRowDataSet.orderBy(['-score1']).done();
-    console.log(orderResult);
-    arrayRowDataSet.orderBy(['-score1', '-score2']).limit(0, 2).value().then(function(res) {
-        console.log(res.data);
-    });
-
-    var maxVal = arrayRowDataSet.max('score1').then(function(res) {
-        console.log(res);
-    });
+    // var columns = [
+    //     { dataIndex: 'id', vtype: 'number' },
+    //     { dataIndex: 'name', vtype: 'cn_string' },
+    //     { dataIndex: 'score1', vtype: 'number' },
+    //     { dataIndex: 'score2', vtype: 'number' }
+    // ];
+    //
+    // var datas = [
+    //     { 'id': 1, 'name': '交易重演', 'score1': 90, 'score2': 82 },
+    //     { 'id': 2, 'name': '实时监控', 'score1': 98, 'score2': 85 },
+    //     { 'id': 3, 'name': '访问控制', 'score1': 85, 'score2': 80 },
+    //     { 'id': 4, 'name': '市场分析', 'score1': 85, 'score2': 79 }
+    // ];
+    //
+    // var arrayRowDataSet = new ArrayRowDataSet({
+    //     columnModel: columns,
+    //     data: datas
+    // });
+    // console.log(arrayRowDataSet);
+    //
+    // var orderResult = arrayRowDataSet.orderBy(['-score1']).done();
+    // console.log(orderResult);
+    // arrayRowDataSet.orderBy(['-score1', '-score2']).limit(0, 2).value().then(function(res) {
+    //     console.log(res.data);
+    // });
+    //
+    // arrayRowDataSet.max('score1').then(function(res) {
+    //     console.log(res);
+    // });
 
     var Utils = require('chart/core/Utils');
     var Chart = require('chart/Chart');
-    var Candlestick = require('chart/members/Candlestick');
+    var Candlestick = require('chart/components/candlestick/Candlestick');
 
     /*var options = {
         domEl: document.getElementById('candlestick'),

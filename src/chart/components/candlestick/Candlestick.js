@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
-    var Utils = require('../core/Utils');
-    var Chart = require('../Chart');
-    var d3SvgCandlestick = require('../shapes/d3SvgCandlestick');
+    var Utils = require('../../core/Utils');
+    var Chart = require('../../Chart');
+    var d3SvgCandlestick = require('./d3SvgCandlestick');
 
     class Candlestick extends Chart {
 

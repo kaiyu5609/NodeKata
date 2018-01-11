@@ -88,6 +88,10 @@ ul {
 .s-record-active {
     outline: 1px solid rgba(33,150, 247, .5);
 }
+.s-record-body .s-record-rows {
+    display: table-row;
+    width: auto;
+}
 .s-record-body .s-record-rows:hover {
 
 }

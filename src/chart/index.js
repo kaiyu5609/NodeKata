@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
 
     var Chart = require('./Chart');
-    var Candlestick = require('./members/Candlestick');
+    var Candlestick = require('./Components/candlestick/Candlestick');
 
     module.exports = {
         Chart: Chart,

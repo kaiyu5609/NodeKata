@@ -52,7 +52,7 @@ define(function(require, exports, module) {
                     if (+h) {
                         return +h - tHeight - hHeight - fHeight;
                     }
-                    return 500 - tHeight - hHeight - fHeight;
+                    return height - tHeight - hHeight - fHeight;
                 }
             },
             footer: {
@@ -86,7 +86,7 @@ define(function(require, exports, module) {
         var items = [];
         var selected = [];
         var selectedAll = false;
-        var preActived = null;
+        var preActivated = null;
         var preselect = rowSet.preselect || function() { return true; };
 
         return {
@@ -143,10 +143,10 @@ define(function(require, exports, module) {
                         return false;
                     }
                     var activeRowClass = rowSet.activeClass || '';
-                    if (preActived && preActived !== ul) {
-                        preActived.removeClass('s-record-active ' + activeRowClass);
+                    if (preActivated && preActivated !== ul) {
+                        preActivated.removeClass('s-record-active ' + activeRowClass);
                     }
-                    preActived = ul.addClass('s-record-active ' + activeRowClass);
+                    preActivated = ul.addClass('s-record-active ' + activeRowClass);
                 });
             },
             setItems: function(sourceItems) {
@@ -162,8 +162,8 @@ define(function(require, exports, module) {
                     if (_.includes(selectRowNumbers, $row.data('rownumumber'))) {
                         return $row.addClass('s-record-selected');
                     }
-                    if (preActived && preActived.data('rownumber') === $row.data('rownumber')) {
-                        preActived = $row.addClass('s-record-selec ' + rowSet.activeClass || '');
+                    if (preActivated && preActivated.data('rownumber') === $row.data('rownumber')) {
+                        preActivated = $row.addClass('s-record-selec ' + rowSet.activeClass || '');
                     }
                 });
 
@@ -172,7 +172,28 @@ define(function(require, exports, module) {
                 } else {
                     gridHeader.find('li.checkbox-col').removeClass('s-record-selected');
                 }
-            }
+            },
+            allSelected: function() {
+               selectedAll = true;
+               selected = [];
+
+               gridBody.find('ul.s-record-rows').addClass(function(i, cls) {
+                   return cls.indexOf('s-readonly') == -1 ? 's-record-selected' : '';
+               }).each(function(i, ul) {
+                   if (ul.className.indexOf('s-readonly') == -1) {
+                       selected.push(ul);
+                   }
+               });
+           },
+           // 数据更新或手动清楚状态
+           clearSelected: function() {
+               preActivated && preActivated.removeClass('s-record-selec ' + rowSet.activeClass || '');
+               preActivated = null;
+               selectedAll = false;
+               selected.length = 0;
+               gridBody.find('ul.s-record-rows').removeClass('s-record-selected');
+               gridHeader.find('li.checkbox-col').removeClass('s-record-selected');
+           }
         }
     }
 
@@ -188,6 +209,24 @@ define(function(require, exports, module) {
             var direction = 'asc';
             opts.rows.preselect = opts.rows.preselect || function() { return true; };
 
+            if (li.hasClass('checkbox-col')) {
+                if (li.hasClass('s-record-selected')) {
+                    li.removeClass('s-record-selected');
+                    bodyEvt.clearSelected();
+                    gridBody.trigger('selectionchange');
+                } else {
+                    if (opts.rows.preselect() !== false) {
+                        li.addClass('s-record-selected');
+                        bodyEvt.allSelected();
+                        gridBody.trigger('selectionchange');
+                    }
+                }
+            }
+
+            if (li.data('sort') === false) {
+                return false;
+            }
+
             if (li.hasClass(sort)) {
                 if (li.hasClass(asc)) {
                     li.removeClass(asc).addClass(desc);
@@ -198,6 +237,14 @@ define(function(require, exports, module) {
                 }
             } else {
                 li.addClass(sort).addClass(asc);
+            }
+
+            if (opts.multiColumnSort === false) {
+                gridHeader.find('li.s-record-cell').each(function(i, elem) {
+                    if ($(elem).data('index') !== property) {
+                        $(elem).removeClass(sort).removeClass(asc).removeClass(desc);
+                    }
+                });
             }
 
             if (doSort !== false && property) {
@@ -304,6 +351,8 @@ define(function(require, exports, module) {
 
             this._columns = this._initColumnProp(this.columns, options);
 
+            options.multiColumnSort = typeof options.multiColumnSort === 'undefined' ? false : options.multiColumnSort;
+
             var view = this.__grid__ = _getSimpleGridView({
                 title: options.title,
                 domEl: options.domEl,
@@ -314,8 +363,8 @@ define(function(require, exports, module) {
                 rows: options.rows || {},
                 checkbox: options.checkbox,
                 page: options.page,
-                selType: '',
-                multiColumnSort: ''
+                selType: options.selType,
+                multiColumnSort: options.multiColumnSort
             });
 
             this._fnSetRowClass = _setRowClass(options.rows);
@@ -448,6 +497,12 @@ define(function(require, exports, module) {
 
             view.header.on('sort', function(ev, sortInfo) {
                 console.log('sortInfo:', sortInfo);
+
+                if (options.multiColumnSort === false) {
+                    options.store.sort([sortInfo]);
+                    return false;
+                }
+
                 var sorts = self.store.getSortState();
                 _.remove(sorts, function(sort, i) {
                     return sort.property == sortInfo.property;
